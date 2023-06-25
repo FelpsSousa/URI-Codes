@@ -6,23 +6,22 @@
 */ 
 
 #include <iostream>
-#include <iomanip>
 
 using namespace std;
 
 int main()
 {
-    double a, b, c, media;
+    int a, b, c, d, diferenca;
 
     cin >> a;
     cin >> b;
     cin >> c;
+    cin >> d;
 
-    media = (( 2*a ) + ( 3*b ) + ( 5*c )) / 10;
-
-    cout << "MEDIA = ";
-    cout << fixed << setprecision(1);
-    cout << media << endl;
-
+    diferenca = ( ( a*b ) - (c*d) );
+    
+    cout << "DIFERENCA = ";
+    cout << diferenca << endl;
+    
     return 0;
 }
