@@ -23,11 +23,11 @@ int main()
 
   cout << valor << endl;
 
-  for ( int i = 0; i < 7;  i++ )
+  for ( int i=0 ; i<7 ; i++ )
   {
     qtd_notas[i] = valor / notas[i];
     // aqui encontra-se o passo principal do problema, pois o perador "%" ele retorna o resto da divisão inteira entre os dois operadores.
-    valor %= notas[i];  
+    valor %= notas[i];
 
     cout << qtd_notas[i] << " nota(s) de R$ " << notas[i] << ",00" << endl;
   } 
