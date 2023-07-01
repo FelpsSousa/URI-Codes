@@ -1,97 +1,97 @@
-/*  The Felps Code
-*   GitHub: https://github.com/FelpsSousa/
-*   In: https://www.linkedin.com/in/felipeluis-felpssousa/
-*   TikoTeko: @thefelps.code
-*   YT: @thefelpscode
-*/
-
-// Labirinto em Parafuso
-
 #include <iostream>
 #include <vector>
 #include <string>
 
-using namespace std;
+// Estrutura de dados para representar a porca
+class Nut {
+public:
+  std::vector<bool> internalChain; // Cadeia interna da porca
 
-bool resolverLabirinto( const vector<string>& labirinto, const string& noz ) 
-{
-  int R = labirinto.size();
-  int C = labirinto[0].size();
-  int N = noz.size();
+  Nut(const std::vector<bool>& chain) : internalChain(chain) {}
+};
 
-  // Verifica se a porca esta na cabeça do parafuso.
-  if ( labirinto[0] == noz ) 
-    return true; 
+// Estrutura de dados para representar o parafuso
+class Bolt {
+public:
+  std::vector<std::vector<bool>> labyrinth; // Labirinto
 
-  // Inicializa a posicao da porca no labirinto.
-  int posicaoNoz = N - 1;
+  Bolt(const std::vector<std::vector<bool>>& maze) : labyrinth(maze) {}
+};
 
-  // Inicializa a posicao atual no labirinto.
-  int linha  = 0;
-  int coluna = 0;
+// Função para verificar se o quebra-cabeça tem solução
+bool hasSolution(const Nut& nut, const Bolt& bolt) {
+  int rows = bolt.labyrinth.size();
+  int cols = bolt.labyrinth[0].size();
 
-  // Enquanto nao chegarmos na cabeça do parafuso.
-  while ( linha < R - 1 ) {
-    
-    // Move para baixo.
-    if ( labirinto[linha + 1][(coluna + posicaoNoz) % C] == '0' ) 
-    {
-      linha++;
-    }
-    // Move no sentido horario.
-    else if ( labirinto[linha][(coluna + posicaoNoz + 1) % C ] == '0')
-    {
-      coluna = (coluna + 1) % C;
-    }
-    // Move no sentido anti-horario.
-    else if ( labirinto[linha][(coluna + posicaoNoz - 1 + C ) % C ] == '0')
-    {
-      coluna = (coluna - 1 + C) % C;
-    }
-    // Nao eh possivel mover a porca.
-    else 
-    {
+  // Verificar se a cadeia interna da porca tem ponta em cada posição correspondente ao labirinto
+  for (int i = 0; i < cols; i++) {
+    if (nut.internalChain[i] && !bolt.labyrinth[0][i]) {
       return false;
     }
+  }
 
-    // Verifica se a porca chegou na posicao correta.
-    if ( labirinto[linha] == noz )
-    {
-      return true;
+  // Verificar se a porca pode deslizar pelo labirinto
+  for (int row = 1; row < rows; row++) {
+    for (int col = 0; col < cols; col++) {
+      if (nut.internalChain[col]) {
+        bool canSlide = false;
+
+        // Verificar se a porca pode deslizar para cima
+        if (row > 1 && bolt.labyrinth[row][col] && bolt.labyrinth[row - 1][col] && bolt.labyrinth[row - 2][col]) {
+          canSlide = true;
+        }
+
+        // Verificar se a porca pode deslizar no sentido horário
+        if (col < cols - 1 && bolt.labyrinth[row][col] && bolt.labyrinth[row][col + 1] && bolt.labyrinth[row - 1][col + 1]) {
+          canSlide = true;
+        }
+
+        // Verificar se a porca pode deslizar no sentido anti-horário
+        if (col > 0 && bolt.labyrinth[row][col] && bolt.labyrinth[row][col - 1] && bolt.labyrinth[row - 1][col - 1]) {
+          canSlide = true;
+        }
+
+        // Verificar se a porca pode deslizar para baixo
+        if (row < rows - 1 && bolt.labyrinth[row][col] && bolt.labyrinth[row + 1][col] && bolt.labyrinth[row + 1][col - 1]) {
+          canSlide = true;
+        }
+
+        if (!canSlide) {
+          return false;
+        }
+      }
     }
-
-    // Move a porca para a proxima posicao.
-    posicaoNoz = (posicaoNoz - 1 + N) % N;
   }
 
-  // Se chegou aqui, significa que nao eh possivel chegar a cabeca do parafuso.
-  return false;
+  return true;
 }
-  
-int main()
-{
-  int R, C;
-  cin >> R >> C;
 
-  string noz;
-  cin >> noz;
+int main() {
+  int rows, cols;
+  std::cin >> rows >> cols;
 
-  vector<string> labirinto( R );
-
-  for ( int i = 0; i < R; i++ ) 
-  {
-    cin >> labirinto[i];
+  std::string nutChain;
+  std::cin >> nutChain;
+  std::vector<bool> nutInternalChain;
+  for (char c : nutChain) {
+    nutInternalChain.push_back(c == '1');
   }
+  Nut nut(nutInternalChain);
 
-  bool temSolucao = resolverLabirinto( labirinto, noz );
+  std::vector<std::vector<bool>> labyrinth(rows, std::vector<bool>(cols));
+  for (int i = 0; i < rows; i++) {
+    std::string row;
+    std::cin >> row;
+    for (int j = 0; j < cols; j++) {
+      labyrinth[i][j] = row[j] == '1';
+    }
+  }
+  Bolt bolt(labyrinth);
 
-  if ( temSolucao )
-  {
-    cout << "Y" << endl;
-  } 
-  else 
-  {
-    cout << "N" << endl;
+  if (hasSolution(nut, bolt)) {
+    std::cout << "Y" << std::endl;
+  } else {
+    std::cout << "N" << std::endl;
   }
 
   return 0;
