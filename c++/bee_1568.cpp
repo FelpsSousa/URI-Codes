@@ -7,45 +7,43 @@
 
 // {soma+=i++} até N.
 
+/*
+* Para encontrar o valor de k, podemos resolver a seguinte equacao:
+* N = (i) + (i+1) + (i+2) + ... + (i+k-1).
+* Isso eh equivalente a:
+* N = k*i + (1 + 2 + 3 + ... + k-1).
+* Sabemos que a soma dos primeiros n numeros naturais eh dada por: S = n*(n+1)/2.
+* Portanto, podemos reescrever a equacaoo como:
+* N = ki + k(k-1)/2.
+*/
+
 #include <iostream>
 #include <cmath>
 
 using namespace std;
 
-// Funcao para contar as maneiras de expressar N como a soma de números inteiros consecutivos.
-int countConsecutiveSums(long long N)
+int main() 
 {
-  int count = 0;
-  long long limit = sqrt(N); // Limite maximo para o comprimento da sequencia.
+  long long int N;
 
-  // Percorre os possiveis comprimentos da sequencia consecutiva.
-  for (int length = 1; length <= limit; length++) 
-  {
-    // Verificar se N pode ser expresso como a soma de uma sequencia de comprimento 'length'.
-    long long sum = (length * (length + 1)) / 2; // Soma da sequencia consecutiva.
-
-    // Verifica se o valor restante de N apos subtrair a soma eh divisivel pelo comprimento 'length'.
-    if ((N - sum) % length == 0)
-    {
-      count++; // Incrementa o contador de maneiras.
-    }
-  }
-
-  return count; // Retorna o numero de maneiras encontradas.
-}
-
-int main()
-{
-  long long N;
-  
-  // Le os valores de entrada ate encontrar o fim do arquivo (EOF).
   while (cin >> N)
   {
-    // Chama a funcao countConsecutiveSums para retornar as maneiras de expresssar N.
-    int ways = countConsecutiveSums(N);
+    int count = 0;
 
-    // Imprime o numero de maneiras encontradas.
-    cout << ways << endl;
+    // Encontrar os valores de i e k que satisfazem a equacaoo N = k*i + k*(k-1)/2
+    // O valor maximo de k pode ser obtido a partir da formula k = (-1 + sqrt(1 + 8*N)) / 2
+    // Uma vez que i e k sao inteiros, basta verificar os valores de k no intervalo [1, k_max]
+    long long int k_max = (sqrt(1 + 8 * N) - 1) / 2;
+
+    for (long long int k = 1; k <= k_max; k++) {
+        // Verificar se existe um valor inteiro para i que satisfaça a equação
+        double i = (2 * N - k * (k - 1)) / (2.0 * k);
+        if (i == static_cast<int>(i)) {
+            count++;
+        }
+    }
+
+    cout << count << endl;
   }
 
   return 0;
