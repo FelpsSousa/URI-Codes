@@ -19,34 +19,29 @@ int main()
 
   while (cin >> M && M != 0)
   {
-    vector<int> dp(M + 1, INT_MAX); // Vetor para armazenar o numero minimo de toques.
-    dp[0] = 0;
+    vector<int> dp(M + 1); // Vetor para armazenar o numero minimo de toques.
+    dp[0] = 0; // Vetor abrviado de'Dynamic Programming'. Vetore auxiliar para armazenar o valor intermediario durante o algoritmo.
 
     for (int i = 1; i <= M; i++)
     {
-      int L, C, R;
-      cin >> L >> C >> R;
+      int left, center, right;
+      cin >> left >> center >> right;
 
-      // Verifica a pista do meio (CENTER: C).
-      if(C == 0)
+      // Inicialmente, assume-se o mesmo numero de toques do caso anterior.
+      dp[i] = dp[i - 1];
+
+      // Verifica 
+      if(i - 2 >= 0)
       {
-        dp[i] = min(dp[i], dp[i - 1]);
+        dp[i] = min(dp[i], dp[i - 2] + abs(center - 1));
       }
 
       cout << "->" << dp[i] << endl; 
 
       // Verifica a pista da esquerda (LEFT: L).
-      if (L == 0)
+      if (i - 3 >= 0)
       {
-        dp[i] = min(dp[i], dp[i - 1] + 1);
-      }
-
-      cout << "->" << dp[i] << endl;
-
-      // Verifica a pista da direita (RIGTH: R).
-      if (R == 0)
-      {
-        dp[i] = min(dp[i], dp[i - 1] + 1);
+        dp[i] = min(dp[i], dp[i - 3] + abs(right - 2));
       }
 
       cout << "->" << dp[i] << endl;
