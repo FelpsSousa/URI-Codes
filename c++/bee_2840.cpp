@@ -20,7 +20,7 @@ int main()
 
   cin >> R >> L;
 
-  double volumeBalao = (4/3) * pi * pow(R, 3);
+  double volumeBalao = (4/3) * (pi * pow(R, 3));
 
   int baloes = L / volumeBalao;
 

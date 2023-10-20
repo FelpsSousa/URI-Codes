@@ -1,62 +1,70 @@
+/*  The Felps Code
+*   GitHub: https://github.com/FelpsSousa/
+*   In: https://www.linkedin.com/in/felipeluis-felpssousa/
+*   TikTok: @thefelps.code
+*   YT: @thefelpscode
+*/
+
+// Labirinto em Parafuso
+
 #include <iostream>
 #include <vector>
 #include <string>
 
-// Estrutura de dados para representar a porca
-class Nut {
-public:
-  std::vector<bool> internalChain; // Cadeia interna da porca
+using namespace std;
 
-  Nut(const std::vector<bool>& chain) : internalChain(chain) {}
+class Porca {
+public:
+  vector<bool> cadeiaInterna; // Representa a parte interna da porca, onde cada elemento indica a presença de uma ponta
+
+  Porca(const vector<bool>& cadeia) : cadeiaInterna(cadeia) {}
 };
 
-// Estrutura de dados para representar o parafuso
-class Bolt {
+class Parafuso {
 public:
-  std::vector<std::vector<bool>> labyrinth; // Labirinto
+  vector<vector<bool>> labirinto; // Representa o labirinto, onde cada elemento indica a presença de uma parede
 
-  Bolt(const std::vector<std::vector<bool>>& maze) : labyrinth(maze) {}
+  Parafuso(const vector<vector<bool>>& lab) : labirinto(lab) {}
 };
 
-// Função para verificar se o quebra-cabeça tem solução
-bool hasSolution(const Nut& nut, const Bolt& bolt) {
-  int rows = bolt.labyrinth.size();
-  int cols = bolt.labyrinth[0].size();
+bool temSolucao(const Porca& porca, const Parafuso& parafuso) {
+  int linhas = parafuso.labirinto.size();
+  int colunas = parafuso.labirinto[0].size();
 
-  // Verificar se a cadeia interna da porca tem ponta em cada posição correspondente ao labirinto
-  for (int i = 0; i < cols; i++) {
-    if (nut.internalChain[i] && !bolt.labyrinth[0][i]) {
+  // Verificar se a cadeia interna da porca tem uma ponta em cada posição correspondente ao labirinto
+  for (int i = 0; i < colunas; i++) {
+    if (porca.cadeiaInterna[i] && !parafuso.labirinto[0][i]) {
       return false;
     }
   }
 
   // Verificar se a porca pode deslizar pelo labirinto
-  for (int row = 1; row < rows; row++) {
-    for (int col = 0; col < cols; col++) {
-      if (nut.internalChain[col]) {
-        bool canSlide = false;
+  for (int linha = 1; linha < linhas; linha++) {
+    for (int coluna = 0; coluna < colunas; coluna++) {
+      if (porca.cadeiaInterna[coluna]) {
+        bool podeDeslizar = false;
 
         // Verificar se a porca pode deslizar para cima
-        if (row > 1 && bolt.labyrinth[row][col] && bolt.labyrinth[row - 1][col] && bolt.labyrinth[row - 2][col]) {
-          canSlide = true;
+        if (linha > 1 && parafuso.labirinto[linha][coluna] && parafuso.labirinto[linha - 1][coluna] && parafuso.labirinto[linha - 2][coluna]) {
+          podeDeslizar = true;
         }
 
         // Verificar se a porca pode deslizar no sentido horário
-        if (col < cols - 1 && bolt.labyrinth[row][col] && bolt.labyrinth[row][col + 1] && bolt.labyrinth[row - 1][col + 1]) {
-          canSlide = true;
+        if (coluna < colunas - 1 && parafuso.labirinto[linha][coluna] && parafuso.labirinto[linha][coluna + 1] && parafuso.labirinto[linha - 1][coluna + 1]) {
+          podeDeslizar = true;
         }
 
         // Verificar se a porca pode deslizar no sentido anti-horário
-        if (col > 0 && bolt.labyrinth[row][col] && bolt.labyrinth[row][col - 1] && bolt.labyrinth[row - 1][col - 1]) {
-          canSlide = true;
+        if (coluna > 0 && parafuso.labirinto[linha][coluna] && parafuso.labirinto[linha][coluna - 1] && parafuso.labirinto[linha - 1][coluna - 1]) {
+          podeDeslizar = true;
         }
 
         // Verificar se a porca pode deslizar para baixo
-        if (row < rows - 1 && bolt.labyrinth[row][col] && bolt.labyrinth[row + 1][col] && bolt.labyrinth[row + 1][col - 1]) {
-          canSlide = true;
+        if (linha < linhas - 1 && parafuso.labirinto[linha][coluna] && parafuso.labirinto[linha + 1][coluna] && parafuso.labirinto[linha + 1][coluna - 1]) {
+          podeDeslizar = true;
         }
 
-        if (!canSlide) {
+        if (!podeDeslizar) {
           return false;
         }
       }
@@ -67,31 +75,31 @@ bool hasSolution(const Nut& nut, const Bolt& bolt) {
 }
 
 int main() {
-  int rows, cols;
-  std::cin >> rows >> cols;
+  int linhas, colunas;
+  cin >> linhas >> colunas;
 
-  std::string nutChain;
-  std::cin >> nutChain;
-  std::vector<bool> nutInternalChain;
-  for (char c : nutChain) {
-    nutInternalChain.push_back(c == '1');
+  string cadeiaPorca;
+  cin >> cadeiaPorca;
+  vector<bool> cadeiaInternaPorca;
+  for (char c : cadeiaPorca) {
+    cadeiaInternaPorca.push_back(c == '1');
   }
-  Nut nut(nutInternalChain);
+  Porca porca(cadeiaInternaPorca);
 
-  std::vector<std::vector<bool>> labyrinth(rows, std::vector<bool>(cols));
-  for (int i = 0; i < rows; i++) {
-    std::string row;
-    std::cin >> row;
-    for (int j = 0; j < cols; j++) {
-      labyrinth[i][j] = row[j] == '1';
+  vector<vector<bool>> labirinto(linhas, vector<bool>(colunas));
+  for (int i = 0; i < linhas; i++) {
+    string linha;
+    cin >> linha;
+    for (int j = 0; j < colunas; j++) {
+      labirinto[i][j] = linha[j] == '1';
     }
   }
-  Bolt bolt(labyrinth);
+  Parafuso parafuso(labirinto);
 
-  if (hasSolution(nut, bolt)) {
-    std::cout << "Y" << std::endl;
+  if (temSolucao(porca, parafuso)) {
+    cout << "Y" << endl;
   } else {
-    std::cout << "N" << std::endl;
+    cout << "N" << endl;
   }
 
   return 0;

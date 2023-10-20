@@ -9,46 +9,53 @@
 
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
 int main()
 {
   int M;
-
+  
   while (cin >> M && M != 0)
   {
-    vector<int> dp(M + 1); // Vetor para armazenar o numero minimo de toques.
-    dp[0] = 0; // Vetor abrviado de'Dynamic Programming'. Vetore auxiliar para armazenar o valor intermediario durante o algoritmo.
+    vector<vector<int>> pistas(M, vector<int>(3));
 
-    for (int i = 1; i <= M; i++)
+    // Leitura das pistas.
+    for (int i = 0; i < M; i++)
     {
-      int left, center, right;
-      cin >> left >> center >> right;
-
-      // Inicialmente, assume-se o mesmo numero de toques do caso anterior.
-      dp[i] = dp[i - 1];
-
-      // Verifica 
-      if(i - 2 >= 0)
-      {
-        dp[i] = min(dp[i], dp[i - 2] + abs(center - 1));
-      }
-
-      cout << "->" << dp[i] << endl; 
-
-      // Verifica a pista da esquerda (LEFT: L).
-      if (i - 3 >= 0)
-      {
-        dp[i] = min(dp[i], dp[i - 3] + abs(right - 2));
-      }
-
-      cout << "->" << dp[i] << endl;
+      cin >> pistas[i][0] >> pistas[i][1] >> pistas[i][2];
     }
 
-    cout << dp[M] << endl; 
-  }
+    int toques = 0;
+    int pistaAtual = 1; // Começando sempre no centro.
 
+    for (int i = 0; i < M; i++)
+    {
+      // Verifica se há obstáculo na pista atual.
+      if (pistas[i][pistaAtual] == 1)
+      {
+        cout << " entrou no atual " << endl;
+        // Encontra uma pista livre pra desviar do obstaculo.
+        if (pistas[i][0] == 0)
+        {
+          pistaAtual = 0; // Desvia para a pista da esquerda.
+          toques++;
+        }
+        else if (pistas[i][2] == 0)
+        {
+          pistaAtual = 2; // Desvia para a pista da direita.
+          toques++;
+        }
+        else (pistas[i][1] == 0)
+        {
+          pistaAtual = 1; // Desvia para a pista da direita.
+          toques++;
+        }
+      }
+    }
+
+    cout << toques << endl;
+  }
+ 
   return 0;
 }
