@@ -1,0 +1,88 @@
+# Ignore Visual Studio Code settings
+.vscode/
+*.code-workspace
+
+# Ignore C++ files and build artifacts
+C++/*.o
+C++/*.obj
+C++/*.exe
+C++/CMakeFiles/
+C++/CMakeCache.txt
+C++/*.log
+C++/*.tmp
+C++/*.cmake
+
+# Ignore JavaScript and TypeScript dependencies and build outputs
+JavaScript/node_modules/
+JavaScript/dist/
+JavaScript/build/
+JavaScript/*.log
+JavaScript/*.tsbuildinfo
+JavaScript/npm-debug.log*
+JavaScript/yarn-debug.log*
+JavaScript/yarn-error.log*
+
+# Ignore Python cache files and virtual environments
+Python/*.pyc
+Python/*.pyo
+Python/*.pyd
+Python/__pycache__/
+Python/env/
+Python/.venv/
+Python/venv/
+Python/*.log
+Python/*.sqlite
+
+# Ignore PostgreSQL temporary files
+PostgreSQL/*.sql~
+PostgreSQL/*.bak
+PostgreSQL/*.tmp
+
+# Ignore general IDE and editor settings
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+
+# Ignore TypeScript-specific files
+JavaScript/*.d.ts
+JavaScript/*.tsbuildinfo
+
+# Ignore CMake and build-related files
+CMakeFiles/
+CMakeCache.txt
+*.cproject
+*.project
+*.launch
+
+# General temporary and backup files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.rej
+*~
+
+# Ignore other tool and compiler-generated files
+*.stackdump
+*.trace
+*.pid
+
+# Ignore dependency lock files
+JavaScript/package-lock.json
+JavaScript/yarn.lock
+
+# Ignore SQLAlchemy and Django migration files
+Python/migrations/
+Python/alembic/
+Python/__pycache__/
+
+# Ignore general test logs and reports
+test-results/
+.nyc_output/
+coverage/
+
+# Ignore debug and language-specific configuration files
+*.gdbinit
+*.gdb
