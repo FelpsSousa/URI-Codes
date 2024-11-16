@@ -11,6 +11,7 @@ C++/CMakeCache.txt
 C++/*.log
 C++/*.tmp
 C++/*.cmake
+C++/output
 
 # Ignore JavaScript and TypeScript dependencies and build outputs
 JavaScript/node_modules/
