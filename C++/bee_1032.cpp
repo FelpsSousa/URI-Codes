@@ -5,7 +5,7 @@
  * License: MIT
  * Description: BEE 1032.
  * Date: 2024-11-25
- * Version: 1.0
+ * Version: 1.1
  */
 
 #include <iostream>
@@ -32,7 +32,7 @@ vector<int> generatePrimes(int limit) {
 }
 
 int josephusWithPrimes(int totalPeople) {
-  vector<int> primes = generatePrimes(3500);
+  vector<int> primes = generatePrimes(50000);
   vector<int> people;
 
   for (int i = 1; i <= totalPeople; i++) {
@@ -43,8 +43,8 @@ int josephusWithPrimes(int totalPeople) {
   int currentPrimeIndex = 0;
 
   while (people.size() > 1) {
-    int step = primes[currentPrimeIndex] - 1;
-    currentIndex = (currentIndex + step) % people.size();
+    int step = primes[currentPrimeIndex];
+    currentIndex = (currentIndex + step - 1) % people.size();
     people.erase(people.begin() + currentIndex);
     currentPrimeIndex++;
   }
