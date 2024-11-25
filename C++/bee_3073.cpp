@@ -5,7 +5,7 @@
  * License: MIT
  * Description: BEE 3073
  * Date: 2024-11-25
- * Version: 1.0
+ * Version: 1.1
  */
 
 #include <iostream>
@@ -22,7 +22,7 @@ struct Vector {
 
 int calculateRank(vector<vector<int>> matrix) {
   if (matrix.empty()) {
-    return 0;
+      return 0;
   }
 
   int rows = matrix.size();
@@ -33,7 +33,7 @@ int calculateRank(vector<vector<int>> matrix) {
     int pivot = rank;
 
     while (pivot < rows && matrix[pivot][col] == 0) {
-      pivot++;
+        pivot++;
     }
 
     if (pivot < rows) {
@@ -54,6 +54,30 @@ int calculateRank(vector<vector<int>> matrix) {
   return rank;
 }
 
+int solveMaxWeightIndependentVectors(vector<Vector>& vectors) {
+  sort(vectors.begin(), vectors.end(), [](const Vector& a, const Vector& b) {
+      return a.weight > b.weight;
+  });
+
+  vector<vector<int>> selectedVectors;
+  int totalWeight = 0;
+
+  for (const auto& vec : vectors) {
+    vector<vector<int>> tempVectors = selectedVectors;
+    tempVectors.push_back(vec.coordinates);
+
+    int rankTemp = calculateRank(tempVectors);
+    int rankSelected = calculateRank(selectedVectors);
+
+    if (rankTemp > rankSelected) {
+      selectedVectors.push_back(vec.coordinates);
+      totalWeight += vec.weight;
+    }
+  }
+
+  return totalWeight;
+}
+
 int main() {
   int d, N;
   cin >> d >> N;
@@ -68,24 +92,9 @@ int main() {
     cin >> vectors[i].weight;
   }
 
-  sort(vectors.begin(), vectors.end(), [](const Vector& a, const Vector& b) {
-    return a.weight > b.weight;
-  });
+  int result = solveMaxWeightIndependentVectors(vectors);
 
-  vector<vector<int>> selectedVectors;
-  int totalWeight = 0;
-
-  for (const auto& vec : vectors) {
-    vector<vector<int>> tempVectors = selectedVectors;
-    tempVectors.push_back(vec.coordinates);
-
-    if (calculateRank(tempVectors) > calculateRank(selectedVectors)) {
-      selectedVectors.push_back(vec.coordinates);
-      totalWeight += vec.weight;
-    }
-  }
-
-  cout << totalWeight << endl;
+  cout << result << endl;
 
   return 0;
 }
