@@ -19,7 +19,7 @@ int sumOddNumbers(int x, int y) {
     swap(x, y);
   }
 
-  for (int i = x + 1; i < y; ++i) {
+  for (int i = x + 1; i < y; i++) {
     if (i % 2 != 0) {
       sum += i;
     }
@@ -35,7 +35,8 @@ int main() {
   while (N--) {
     int x, y;
     cin >> x >> y;
-    cout << sumOddNumbers(x, y) << endl;
+
+    cout << sumOddNumbers(x, y);
   }
 
   return 0;
