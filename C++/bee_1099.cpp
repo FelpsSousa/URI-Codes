@@ -5,7 +5,7 @@
  * License: MIT
  * Description: BEE 1099
  * Date: 2024-11-26
- * Version: 1.0
+ * Version: 1.1
  */
 
 #include <iostream>
@@ -19,7 +19,7 @@ int sumOddNumbers(int x, int y) {
     swap(x, y);
   }
 
-  for (int i = x + 1; i < y; i++) {
+  for (int i = x + 1; i < y; ++i) {
     if (i % 2 != 0) {
       sum += i;
     }
@@ -35,8 +35,7 @@ int main() {
   while (N--) {
     int x, y;
     cin >> x >> y;
-
-    cout << sumOddNumbers(x, y);
+    cout << sumOddNumbers(x, y) << endl;
   }
 
   return 0;
