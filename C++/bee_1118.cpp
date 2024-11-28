@@ -5,7 +5,7 @@
  * License: MIT
  * Description: BEE 1118
  * Date: 2024-11-28
- * Version: 1.0
+ * Version: 1.1
  */
 
 #include <iostream>
@@ -39,7 +39,7 @@ int main() {
     cout << fixed << setprecision(2) << "media = " << average << endl;
 
     do {
-      cout << "novo calculo (1-sim / 2-nao)" << endl;
+      cout << "novo calculo (1-sim 2-nao)" << endl;
       cin >> choice;
     } while (choice != 1 && choice != 2);
 
