@@ -2,6 +2,8 @@
 .vscode/
 *.code-workspace
 
+output
+
 # Ignore C++ files and build artifacts
 C++/*.o
 C++/*.obj
