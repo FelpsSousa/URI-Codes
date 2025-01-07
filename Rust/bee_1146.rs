@@ -5,7 +5,7 @@
  * License: MIT
  * Description: BEE 1146
  * Date: 2025-01-06
- * Version: 1.0
+ * Version: 1.2
  */
 
 use std::io;
@@ -16,13 +16,13 @@ fn main() {
   loop {
     input.clear();
 
-    io::stdin().read_line(&mut input).expect("Failed to read input");
+    io::stdin()
+      .read_line(&mut input)
+      .expect("Fail to read");
 
     let x: i32 = match input.trim().parse() {
       Ok(num) => num,
-      Err(_) => {
-        continue,
-      }
+      Err(_) => continue,
     };
 
     if x == 0 {
