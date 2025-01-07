@@ -5,7 +5,7 @@
  * License: MIT
  * Description: BEE 1146
  * Date: 2025-01-06
- * Version: 1.2
+ * Version: 1.3
  */
 
 use std::io;
